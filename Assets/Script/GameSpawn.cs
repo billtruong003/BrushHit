@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
-public class SceneController : MonoBehaviour
+public class GameSpawn: MonoBehaviour
 {
     [Header("Mesh + Terrain Settings")]
     [SerializeField] GameObject[] terrainObjects; // Mảng chứa nhiều Mesh Renderer
@@ -27,16 +29,23 @@ public class SceneController : MonoBehaviour
     [SerializeField] Cinemachine.CinemachineVirtualCamera PlayerFollowCam;
     public Transform centerPoint;
 
-    [Header("FPS")]
-    public int targetFPS = 120;
+    [Header("Score")]
+    [SerializeField] public static int Score;
+    [SerializeField] TextMeshProUGUI ScoreDisplay;
+    
+
+    
+    
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = targetFPS;
         sum_object = 0;
         SpawnPlayerToNothingPlane();
         AssignComponentToMeshRenderer();
         AreaTerrain();
+    }
+    private void Update() {
+        ScoreDisplay.text = "Score " + Score;
     }
     void SpawnPlayerToNothingPlane() {
         var playerSpawned = Instantiate(SpawnPlayer, PlanSpawner.position, Quaternion.identity, transform);

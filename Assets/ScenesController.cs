@@ -22,4 +22,7 @@ public class ScenesController : MonoBehaviour
     public void LoadScene(string SceneName){
         SceneManager.LoadScene(SceneName);
     }
+    public void ResetGame(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }

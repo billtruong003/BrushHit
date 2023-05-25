@@ -18,10 +18,12 @@ public class RubberBehaviour : MonoBehaviour
     public bool isColliding = false;   // Biến boolean để kiểm tra đã va chạm hay chưa
 
     public Vector3 initialPosition;    // Vị trí ban đầu của đối tượng
+    public static bool win;
 
     private void Start()
     {
-        SceneController.numberObTrue = 0;
+        win = false;
+        GameSpawn.numberObTrue = 0;
         MaterialMesh = GetComponent<MeshRenderer>();
         MaterialMesh.material = mat1;
         // Lưu trữ vị trí ban đầu của đối tượng
@@ -36,16 +38,19 @@ public class RubberBehaviour : MonoBehaviour
             // Thụt vị trí y của gameobject xuống theo giá trị yOffset
             transform.Translate(new Vector3(0, -yOffset, 0));
             isColliding = true;
-            if (SceneController.numberObTrue >= SceneController.sum_object) {
+            if (GameSpawn.numberObTrue >= GameSpawn.sum_object) {
                 Debug.Log("Winnnn");
+                win = true;
+                PauseMenu.WinGame();
             }
         }
         if (other.gameObject.CompareTag("Player") && !hasChangedMaterial)
         {
             GetComponent<MeshRenderer>().material = mat2;
             hasChangedMaterial = true;
-            SceneController.numberObTrue += 1;
-            Debug.Log("Point: " + SceneController.numberObTrue);
+            GameSpawn.numberObTrue += 1;
+            GameSpawn.Score += 1;
+            Debug.Log("Point: " + GameSpawn.numberObTrue);
         }
     }
 
