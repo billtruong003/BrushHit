@@ -25,19 +25,18 @@ public class SceneController : MonoBehaviour
     [SerializeField] GameObject SpawnPlayer;
     [SerializeField] Transform PlanSpawner;
     [SerializeField] Cinemachine.CinemachineVirtualCamera PlayerFollowCam;
-    public Transform PlayerSpawned;
     public Transform centerPoint;
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1;
         SpawnPlayerToNothingPlane();
         AssignComponentToMeshRenderer();
         AreaTerrain();
     }
     void SpawnPlayerToNothingPlane() {
-        Instantiate(SpawnPlayer, PlanSpawner.position, Quaternion.identity, transform);
-        PlayerSpawned = transform.Find("Player(Clone)");
-        centerPoint = PlayerSpawned.Find("CenterPoint");
+        var playerSpawned = Instantiate(SpawnPlayer, PlanSpawner.position, Quaternion.identity, transform);
+        centerPoint = playerSpawned.transform.Find("CenterPoint");
         PlayerFollowCam.Follow = centerPoint;
         PlayerFollowCam.LookAt = centerPoint;
     }

@@ -12,7 +12,6 @@ public class Rolling : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -22,4 +21,5 @@ public class Rolling : MonoBehaviour
         Head2.transform.RotateAround(Center.position, Vector3.forward, rotationSpeed * Time.deltaTime);
         Body.transform.RotateAround(Center.position, Vector3.forward, rotationSpeed * Time.deltaTime);
     }
+    
 }
