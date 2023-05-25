@@ -39,6 +39,7 @@ public class GameSpawn: MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Score = 0;
         sum_object = 0;
         SpawnPlayerToNothingPlane();
         AssignComponentToMeshRenderer();

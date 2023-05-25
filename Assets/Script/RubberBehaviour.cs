@@ -18,12 +18,9 @@ public class RubberBehaviour : MonoBehaviour
     public bool isColliding = false;   // Biến boolean để kiểm tra đã va chạm hay chưa
 
     public Vector3 initialPosition;    // Vị trí ban đầu của đối tượng
-    public static bool win;
-
+    
     private void Start()
     {
-        win = false;
-        GameSpawn.numberObTrue = 0;
         MaterialMesh = GetComponent<MeshRenderer>();
         MaterialMesh.material = mat1;
         // Lưu trữ vị trí ban đầu của đối tượng
@@ -40,8 +37,6 @@ public class RubberBehaviour : MonoBehaviour
             isColliding = true;
             if (GameSpawn.numberObTrue >= GameSpawn.sum_object) {
                 Debug.Log("Winnnn");
-                win = true;
-                PauseMenu.WinGame();
             }
         }
         if (other.gameObject.CompareTag("Player") && !hasChangedMaterial)
