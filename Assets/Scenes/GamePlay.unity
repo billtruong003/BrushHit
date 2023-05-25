@@ -175,7 +175,7 @@ MonoBehaviour:
   - {fileID: 1724716643}
   _meshRenderers: []
   CapsuleRubber: {fileID: 8604920335232493042, guid: 0935f649cff11af4faa4a2d38790854a, type: 3}
-  distanceForEachRubber: 0.25
+  distanceForEachRubber: 0.6
   _LineCount: 0
   number_needtogenerateObject: 0
   number_linetogenerate: 0
@@ -195,8 +195,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3c9f269a7a818b4a8a905153392ae65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_scene: 0
-  m_mode: 0
 --- !u!114 &44940081
 MonoBehaviour:
   m_ObjectHideFlags: 0

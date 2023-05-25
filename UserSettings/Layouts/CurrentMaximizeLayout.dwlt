@@ -397,9 +397,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -2.5482683, y: -0.21743518, z: 20.068644}
+    m_Target: {x: 375, y: 667, z: 0}
     speed: 2
-    m_Value: {x: -2.5482683, y: -0.21743518, z: 20.068644}
+    m_Value: {x: 375, y: 667, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -450,9 +450,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0.20387217, y: 0.042859226, z: -0.008934693, w: 0.97801816}
   m_Size:
-    m_Target: 1.4686766
+    m_Target: 187.83345
     speed: 2
-    m_Value: 1.4686766
+    m_Value: 187.83345
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -556,7 +556,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 11907
+  controlID: 13165
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -615,9 +615,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: fc820000
-      m_LastClickedID: 33532
-      m_ExpandedIDs: ea18f6ff4419f6ff101cf6ffca1cf6ffa80cf7ff5411f7ff8413f7ff6c15f7ffc280f7ffd280f7ff9a9af7ff1c9bf7ff5289f8ff1c64faffd43ffcffb82cfdff5a0affff16fbffffb05d00001a5e00003c7d0000a67d0000c6820000
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: 4e9beeffa08aefff8281f0ffb86ff1ff0e70f1ff665ff2ffea18f6ff4419f6ff101cf6ffca1cf6ffa80cf7ff5411f7ff8413f7ff6c15f7ffc280f7ffd280f7ff9a9af7ff1c9bf7ff5289f8ff1c64faffd43ffcffb82cfdff5a0affff16fbffffb05d00001a5e00003c7d0000a67d0000c6820000c28d0000a0950000ce950000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -633,7 +633,7 @@ MonoBehaviour:
         m_IsRenaming: 0
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 13}
+        m_ClientGUIView: {fileID: 9}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -709,21 +709,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Assets/Scenes/Menu
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets
+  - Assets/Scenes/Menu
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\Unity project\InterviewGame(Bill)
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 2a5b0000
-    m_LastClickedID: 23338
+    m_SelectedIDs: 5c6b0000
+    m_LastClickedID: 27484
     m_ExpandedIDs: 000000002a5b0000365b000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -777,8 +777,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: fc820000
-    m_LastClickedInstanceID: 33532
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
@@ -804,7 +804,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 242.6}
+    m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 64
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 115
@@ -827,8 +827,8 @@ MonoBehaviour:
     y: 0
     width: 372
     height: 722.8
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}

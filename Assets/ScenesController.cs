@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class ScenesController : MonoBehaviour
 {
+    [Header("FPS")]
+    public int targetFPS = 120;
     public enum SceneName
     {
         Loading = 0,
@@ -12,9 +14,12 @@ public class ScenesController : MonoBehaviour
     }
     private void Start()
     {
+        Application.targetFrameRate = targetFPS;
+        Time.timeScale = 0;
+        Time.timeScale = 1;
     }
     
     public void LoadScene(string SceneName){
-        SceneManager.LoadScene(SceneManager.GetSceneByName(SceneName).buildIndex);
+        SceneManager.LoadScene(SceneName);
     }
 }

@@ -21,6 +21,7 @@ public class RubberBehaviour : MonoBehaviour
 
     private void Start()
     {
+        SceneController.numberObTrue = 0;
         MaterialMesh = GetComponent<MeshRenderer>();
         MaterialMesh.material = mat1;
         // Lưu trữ vị trí ban đầu của đối tượng
@@ -38,7 +39,6 @@ public class RubberBehaviour : MonoBehaviour
             if (SceneController.numberObTrue >= SceneController.sum_object) {
                 Debug.Log("Winnnn");
             }
-            
         }
         if (other.gameObject.CompareTag("Player") && !hasChangedMaterial)
         {

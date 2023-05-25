@@ -26,10 +26,14 @@ public class SceneController : MonoBehaviour
     [SerializeField] Transform PlanSpawner;
     [SerializeField] Cinemachine.CinemachineVirtualCamera PlayerFollowCam;
     public Transform centerPoint;
+
+    [Header("FPS")]
+    public int targetFPS = 120;
     // Start is called before the first frame update
     void Start()
     {
-        Time.timeScale = 1;
+        Application.targetFrameRate = targetFPS;
+        sum_object = 0;
         SpawnPlayerToNothingPlane();
         AssignComponentToMeshRenderer();
         AreaTerrain();
@@ -42,49 +46,38 @@ public class SceneController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void GenerateRubber(Vector3 sizeMeshTerrain, Transform parent, Vector3 centerPos) 
+    void GenerateRubber(Vector3 sizeMeshTerrain, Transform parent, Vector3 centerPos)
     {
-        // Gán giá trị kích thước terrain
         _LengthTerrain = sizeMeshTerrain.x;
         _WidthTerrain = sizeMeshTerrain.z;
-
-        // Tính giá trị đếm ban đầu cho đối tượng Rubber
         _LengthCount = _LengthTerrain / 2;
         _LineCount = _WidthTerrain / 2;
-
-        // Tính số lượng đối tượng cần tạo dựa trên khoảng cách giữa chúng
         number_needtogenerateObject = (int)(_LengthTerrain / distanceForEachRubber);
         number_linetogenerate = (int)(_WidthTerrain / distanceForEachRubber);
 
-        // In ra các giá trị để kiểm tra
         Debug.Log(centerPos.x);
         Debug.Log(centerPos.z);
         Debug.Log(_LengthCount);
         Debug.Log(_LineCount);
 
-        // Vòng lặp để tạo ra các đối tượng Rubber trên khu vực terrain
-        for(int i = 0; i < number_linetogenerate + 1; i++) {
-            // Đặt lại giá trị đếm cho hàng ngang
+        for (int i = 0; i < number_linetogenerate + 1; i++)
+        {
             _LengthCount = -(_LengthTerrain / 2);
-            
-            for(int j = 0; j < number_needtogenerateObject + 1; j++) {
-                // Tính toán vị trí bắt đầu của đối tượng Rubber
+
+            for (int j = 0; j < number_needtogenerateObject + 1; j++)
+            {
                 _StartPos = new Vector3(centerPos.x + _LengthCount, CapsuleRubber.transform.position.y, centerPos.z - _LineCount);
-                
-                // Tạo đối tượng Rubber và đặt trong transform cha
                 Instantiate(CapsuleRubber, _StartPos, Quaternion.identity, parent);
-                
-                // Cập nhật biến đếm và tổng số đối tượng
+
                 sum_object += 1;
                 _LengthCount += distanceForEachRubber;
             }
-            
-            // Giảm giá trị đếm cho hàng dọc
+
             _LineCount -= distanceForEachRubber;
         }
 
-        // In ra tổng số đối tượng đã tạo thành công
         Debug.Log("Tổng cộng có: " + sum_object);
+    
 
         /* 
         Hàm này sẽ hoạt động như sau, ví dụ size.x và size.z của gameobject plan = 10;
