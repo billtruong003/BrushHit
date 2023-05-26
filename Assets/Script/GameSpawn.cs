@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Cinemachine;
 
 public class GameSpawn: MonoBehaviour
 {
@@ -26,8 +27,14 @@ public class GameSpawn: MonoBehaviour
     [Header("SpawnPlayer")]
     [SerializeField] GameObject SpawnPlayer;
     [SerializeField] Transform PlanSpawner;
+
+    [Header("Camera")]
     [SerializeField] Cinemachine.CinemachineVirtualCamera PlayerFollowCam;
+    [SerializeField] Camera maincam;
     public Transform centerPoint;
+    [SerializeField] float smoothSpeed = 0.5f;
+    [SerializeField] float heightOffset = 10f;
+    [SerializeField] float distanceOffset = 5f;
 
     [Header("Score")]
     [SerializeField] public static int Score;
@@ -51,9 +58,24 @@ public class GameSpawn: MonoBehaviour
     void SpawnPlayerToNothingPlane() {
         var playerSpawned = Instantiate(SpawnPlayer, PlanSpawner.position, Quaternion.identity, transform);
         centerPoint = playerSpawned.transform.Find("CenterPoint");
-        PlayerFollowCam.Follow = centerPoint;
-        PlayerFollowCam.LookAt = centerPoint;
+        //PlayerFollowCam.Follow = centerPoint;
+        //PlayerFollowCam.LookAt = centerPoint;
     }
+    private void LateUpdate()
+    {
+        if (centerPoint != null)
+        {
+            Vector3 desiredPosition = centerPoint.position + Vector3.up * heightOffset;
+            desiredPosition.z -= distanceOffset; // Thay đổi giá trị z ở đây
+
+            Vector3 smoothedPosition = Vector3.Lerp(maincam.transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
+            maincam.transform.position = smoothedPosition;
+
+            Quaternion desiredRotation = Quaternion.LookRotation(centerPoint.position - maincam.transform.position, Vector3.up);
+            maincam.transform.rotation = Quaternion.Slerp(maincam.transform.rotation, desiredRotation, smoothSpeed * Time.deltaTime);
+        }
+    }
+
 
     // Update is called once per frame
     void GenerateRubber(Vector3 sizeMeshTerrain, Transform parent, Vector3 centerPos)

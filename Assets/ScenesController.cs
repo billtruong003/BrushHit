@@ -42,9 +42,7 @@ public class ScenesController : MonoBehaviour
     {
 
         AsyncOperation operation = SceneManager.LoadSceneAsync(SceneName);
-
         LoadingScreen.SetActive(true);
-        
         while(!operation.isDone)
         {
             float progressValue = Mathf.Clamp01(operation.progress / speed);
@@ -52,6 +50,10 @@ public class ScenesController : MonoBehaviour
 
             yield return null;
         }
+        
+        
+        yield return new WaitForSeconds(2f);
+        
     }
 
 }

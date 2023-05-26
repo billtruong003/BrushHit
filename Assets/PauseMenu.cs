@@ -7,7 +7,9 @@ public class PauseMenu : MonoBehaviour
     public GameObject PausePanel;
     [Header("Win Lose")]
     public GameObject WinPanel;
+    public GameObject LosePanel;
     public bool Win;
+    public static bool notice_Win;
     public void PauseGame() {
         Time.timeScale = 0;
         PausePanel.SetActive(true);
@@ -21,6 +23,12 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0;
         WinPanel.SetActive(true);
         Win = true;
+        notice_Win = true;
+    }
+    public void LoseGame() {
+        Time.timeScale = 0;
+        LosePanel.SetActive(true);
+        CheckCollsion.safe = true;
     }
     
     // Start is called before the first frame update
@@ -28,6 +36,7 @@ public class PauseMenu : MonoBehaviour
     {
         GameSpawn.numberObTrue = 0;
         Win = false;
+        notice_Win = false;
     }
 
     // Update is called once per frame
@@ -35,6 +44,9 @@ public class PauseMenu : MonoBehaviour
     {
         if(GameSpawn.numberObTrue >= GameSpawn.sum_object && !Win) {
             WinGame();
+        }
+        if(!CheckCollsion.safe) {
+            LoseGame();
         }
     }
 }

@@ -10,7 +10,11 @@ public class CheckCollsion : MonoBehaviour
     [Header("Lấy các LayerMask để xác định va chạm")]
     public LayerMask playableLayer;
     public float raycastDistance = 1f;
+    public static bool safe = true;
 
+    private void Start() {
+        safe = true;
+    }
     private void OnDrawGizmos()
     {
         // Set màu gizmos thành xanh
@@ -28,6 +32,12 @@ public class CheckCollsion : MonoBehaviour
         else
         {
             Debug.Log("Layer va chạm là biển");
+            if (!PauseMenu.notice_Win)
+            {
+                safe = false;
+            }
+            else
+            {}
         }
     }
 }

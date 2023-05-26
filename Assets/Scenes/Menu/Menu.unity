@@ -1460,6 +1460,10 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 598653147062429881, guid: 29740ca2a82585e41815daa5a30fa6cf, type: 3}
+      propertyPath: targetFPS
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 598653147062429881, guid: 29740ca2a82585e41815daa5a30fa6cf, type: 3}
       propertyPath: LoadingScreen
       value: 
       objectReference: {fileID: 1823831648}
