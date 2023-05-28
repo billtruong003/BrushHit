@@ -10,7 +10,7 @@ public class RubberBehaviour : MonoBehaviour
     
     MeshRenderer MaterialMesh;
     // Số lượng pixel để thụt vị trí y khi va chạm xảy ra
-    public float yOffset = 0.5f;
+    public float yOffset = 0.3f;
 
     // Tốc độ của hiệu ứng trở lại vị trí ban đầu
     public float returnSpeed = 1f;
@@ -44,7 +44,7 @@ public class RubberBehaviour : MonoBehaviour
             GetComponent<MeshRenderer>().material = mat2;
             hasChangedMaterial = true;
             GameSpawn.numberObTrue += 1;
-            GameSpawn.Score += 1;
+            GameSpawn.score += 1;
             Debug.Log("Point: " + GameSpawn.numberObTrue);
         }
     }

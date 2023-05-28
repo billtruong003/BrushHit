@@ -37,7 +37,7 @@ public class GameSpawn: MonoBehaviour
     [SerializeField] float distanceOffset = 5f;
 
     [Header("Score")]
-    [SerializeField] public static int Score;
+    [SerializeField] public static int score;
     [SerializeField] TextMeshProUGUI ScoreDisplay;
     
 
@@ -46,14 +46,14 @@ public class GameSpawn: MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Score = 0;
+        score = 0;
         sum_object = 0;
         SpawnPlayerToNothingPlane();
         AssignComponentToMeshRenderer();
         AreaTerrain();
     }
     private void Update() {
-        ScoreDisplay.text = "Score " + Score;
+        ScoreDisplay.text = "Score " + score;
     }
     void SpawnPlayerToNothingPlane() {
         var playerSpawned = Instantiate(SpawnPlayer, PlanSpawner.position, Quaternion.identity, transform);

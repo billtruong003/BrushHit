@@ -15,27 +15,28 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed = 200f;
 
     [Header("Script để kiểm tra va chạm")]
-    public CheckCollsion CheckCollision;
+    public CheckCollision CheckCollision;
     Transform[] elements;
     
     private void Start() {
         CenterPoint.position = new Vector3(head1.transform.position.x, head1.transform.position.y + 0.5f, head1.transform.position.z);
-        CheckCollision = GetComponent<CheckCollsion>();
+        CheckCollision = GetComponent<CheckCollision>();
         elements = new Transform[]{ head1.transform, head2.transform, body.transform };
         Direction = true;
     }
     private void Update()
     {
         // Tính toán vị trí mới sau quay quanh điểm centerPoint
-        /*Head1.transform.RotateAround(CenterPoint.position, Vector3.up, rotationSpeed * Time.deltaTime);
-        Head2.transform.RotateAround(CenterPoint.position, Vector3.up, rotationSpeed * Time.deltaTime);
-        Body.transform.RotateAround(CenterPoint.position, Vector3.up, rotationSpeed * Time.deltaTime);*/
+        /* Head1.transform.RotateAround(CenterPoint.position, Vector3.up, rotationSpeed * Time.deltaTime);
+            Head2.transform.RotateAround(CenterPoint.position, Vector3.up, rotationSpeed * Time.deltaTime);
+            Body.transform.RotateAround(CenterPoint.position, Vector3.up, rotationSpeed * Time.deltaTime); */
         if(Direction)
         {
             foreach (Transform element in elements)
             {
                 element.RotateAround(CenterPoint.position, Vector3.up, rotationSpeed * Time.deltaTime);
             }
+            
         }
         else
         {

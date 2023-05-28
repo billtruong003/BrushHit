@@ -28,7 +28,7 @@ public class PauseMenu : MonoBehaviour
     public void LoseGame() {
         Time.timeScale = 0;
         LosePanel.SetActive(true);
-        CheckCollsion.safe = true;
+        CheckCollision.safe = true;
     }
     
     // Start is called before the first frame update
@@ -45,7 +45,7 @@ public class PauseMenu : MonoBehaviour
         if(GameSpawn.numberObTrue >= GameSpawn.sum_object && !Win) {
             WinGame();
         }
-        if(!CheckCollsion.safe) {
+        if(!CheckCollision.safe) {
             LoseGame();
         }
     }

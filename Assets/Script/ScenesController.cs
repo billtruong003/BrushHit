@@ -25,10 +25,10 @@ public class ScenesController : MonoBehaviour
         Application.targetFrameRate = targetFPS;
         Time.timeScale = 0;
         Time.timeScale = 1;
+        StartCoroutine(FPS_Setup());
     }
     private void Update() {
-        int fps = (int)(1f / Time.deltaTime);
-        fpsText.text = "FPS: " + fps.ToString();
+        
     }
     
     public void LoadScene(string SceneName)
@@ -55,5 +55,12 @@ public class ScenesController : MonoBehaviour
         yield return new WaitForSeconds(2f);
         
     }
-
+    IEnumerator FPS_Setup()
+    {
+        while(true && fpsText != null){
+            int fps = (int)(1f / Time.deltaTime);
+            fpsText.text = "FPS: " + fps.ToString();
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
 }
