@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CleanRender_ToonWater
+  m_Shader: {fileID: 4800000, guid: 5705a488b796f44829bb0bf5b89b93aa, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _QUALITY_LOW
+  - _USE_VERTEX_WAVES
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _FlowMap:
+        m_Texture: {fileID: 2800000, guid: 70c613cca773c4d2d972c9686726d121, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: 50a0e302fbb294d58bdded60958db16f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: d4b552baf99ce42d5b2b9f314c2e173c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SurfaceFoamTexture:
+        m_Texture: {fileID: 2800000, guid: 428fad5df7ca046528e40db128c4a61b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BlingGloss: 10
+    - _BlingIntensity: 2
+    - _BlingThreshold: 0.99
+    - _Cull: 2
+    - _DepthFade: 2
+    - _DepthMaxDistance: 7.1
+    - _FallSpeed: 1.5
+    - _FlowSpeed: 1
+    - _FlowStrength: 0.405
+    - _FoamDistortion: 0
+    - _FoamEdgeSmoothness: 0.15
+    - _FoamIntersectionDepth: 2
+    - _FoamIntersectionSoftness: 0.05
+    - _FoamWidth: 1.259
+    - _IntersectionFoamWidth: 0.8
+    - _IntersectionNoiseScale: 2
+    - _NoiseScale: 1
+    - _NoiseStrength: 0.3
+    - _NormalFoamSmoothness: 0.15
+    - _NormalFoamStrength: 0.6
+    - _NormalFoamThreshold: 0.3
+    - _NormalStrength: 1.1
+    - _NormalTilingA: 1
+    - _NormalTilingB: 0.1
+    - _QualityLow: 1
+    - _RefractionStrength: 0.123
+    - _SideStretch: 10
+    - _Smoothness: 0.001
+    - _StencilComp: 0
+    - _StencilPass: 0
+    - _StencilRef: 0
+    - _SurfaceFoamCutoff: 0.25
+    - _SurfaceFoamTiling: 0.05
+    - _Threshold: 0
+    - _TriplanarScale: 0.5
+    - _TriplanarSharpness: 10
+    - _UseFlowMap: 0
+    - _UseTriplanar: 0
+    - _UseVertexWaves: 1
+    - _WaveAmplitude: 0.15
+    - _WaveFrequency: 7.5
+    - _WaveSpeed: 2
+    m_Colors:
+    - _BlingColor: {r: 1, g: 1, b: 1, a: 1}
+    - _DeepColor: {r: 0, g: 0.96914005, b: 2, a: 1}
+    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
+    - _NormalScrollA: {r: 0.15, g: 0.15, b: 0, a: 0}
+    - _NormalScrollB: {r: -0.015, g: -0.15, b: 0, a: 0}
+    - _ScrollSpeed1: {r: 0.1, g: 0.2, b: 0, a: 0}
+    - _ScrollSpeed2: {r: 0.1, g: 0.1, b: 0, a: 0}
+    - _ShadowColor: {r: 0.14999998, g: 0.19999996, b: 0.39999998, a: 1}
+    - _ShallowColor: {r: 0, g: 0.38277936, b: 1, a: 0.78431374}
+    - _SurfaceFoamScroll: {r: 0.05, g: 0.05, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

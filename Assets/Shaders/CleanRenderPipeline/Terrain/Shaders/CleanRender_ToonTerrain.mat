@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CleanRender_ToonTerrain
+  m_Shader: {fileID: 4800000, guid: e2dd5e2c42eae48a2890acb097d7bb28, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _ALPHATEST_ON
+  - _USE_HOLEMAP
+  m_InvalidKeywords:
+  - _T2M_LAYER_COUNT_5
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2450
+  stringTagMap:
+    RenderType: TransparentCutout
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _HoleMap:
+        m_Texture: {fileID: 2800000, guid: b0cfa05d9d4ad7e458dfab444acf5c52, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Layer0:
+        m_Texture: {fileID: 2800000, guid: 6de5ac8aeb199fb4cac059072fe63ba9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Layer1:
+        m_Texture: {fileID: 2800000, guid: 06195f54df9810d4bb66ee569152385e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Layer2:
+        m_Texture: {fileID: 2800000, guid: d6b088f2b1e56478bb737eb5742a237e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Layer3:
+        m_Texture: {fileID: 2800000, guid: 2b00946b8493b41c696ecc3237d8a9f3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SplatMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BlendSharpness: 6.84
+    - _CliffAngle: 0.4
+    - _Cutoff: 0.01
+    - _HeightLow: 2
+    - _HeightMid: 5
+    - _HeightOffset: 0.3
+    - _HoleEdgeSoftness: 0
+    - _HoleThreshold: 0.01
+    - _Smoothness: 0.5
+    - _SplatInfluence: 1
+    - _SplatSharpness: 5
+    - _TexScale: 0.2
+    - _Threshold: 0.25
+    - _TriplanarScale: 0.2
+    - _TriplanarSharpness: 10
+    - _UseHoleMap: 1
+    - _UseSplatMap: 0
+    m_Colors:
+    - _Layer0Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Layer1Color: {r: 0.78431374, g: 0.7265391, b: 0.14509805, a: 1}
+    - _Layer2Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Layer3Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ShadowColor: {r: 0.3270737, g: 0.35473475, b: 0.3962264, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

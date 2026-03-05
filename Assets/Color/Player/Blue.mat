@@ -8,18 +8,27 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Blue
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 5705a488b796f44829bb0bf5b89b93aa, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _QUALITY_LOW
+  - _USE_VERTEX_WAVES
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -48,6 +57,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: d4b552baf99ce42d5b2b9f314c2e173c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -56,25 +69,63 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SurfaceFoamTexture:
+        m_Texture: {fileID: 2800000, guid: 428fad5df7ca046528e40db128c4a61b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClip: 0
+    - _BlingGloss: 10
+    - _BlingIntensity: 2
+    - _BlingThreshold: 0.99
     - _BumpScale: 1
+    - _Cull: 2
     - _Cutoff: 0.5
+    - _DepthMaxDistance: 7.1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _Emission: 0
+    - _FoamDistortion: 0
+    - _FoamEdgeSmoothness: 0.15
+    - _FoamIntersectionDepth: 2
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
+    - _NormalStrength: 1.1
+    - _NormalTilingA: 1
+    - _NormalTilingB: 0.1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _RefractionStrength: 0.123
+    - _RimPower: 2
+    - _Smoothness: 0.001
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _SurfaceFoamCutoff: 0.25
+    - _SurfaceFoamTiling: 0.05
+    - _Threshold: 0
     - _UVSec: 0
+    - _UseLocalToon: 1
+    - _WaveAmplitude: 0.15
+    - _WaveFrequency: 7.5
+    - _WaveSpeed: 2
     - _ZWrite: 1
     m_Colors:
+    - _BaseColor: {r: 0, g: 0.9019608, b: 1, a: 1}
+    - _BlingColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0, g: 0.90196085, b: 1, a: 1}
+    - _DeepColor: {r: 0, g: 0.96914005, b: 2, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
+    - _NormalScrollA: {r: 0.15, g: 0.15, b: 0, a: 0}
+    - _NormalScrollB: {r: -0.015, g: -0.15, b: 0, a: 0}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 0.5}
+    - _ShadowColor: {r: 0.14999998, g: 0.19999996, b: 0.39999998, a: 1}
+    - _ShallowColor: {r: 0, g: 0.38277936, b: 1, a: 0.78431374}
+    - _SurfaceFoamScroll: {r: 0.05, g: 0.05, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

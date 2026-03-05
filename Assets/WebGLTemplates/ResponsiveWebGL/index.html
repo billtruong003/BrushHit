@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | {{{ PRODUCT_NAME }}}</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <style>
+      body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: {{{ BACKGROUND || '#000' }}};
+      }
+
+      /* ===== RESPONSIVE CONFIG =====
+       * Set FIXED_RATIO to true and pick your ratio below.
+       * When false, canvas stretches to fill the entire browser window.
+       * When true, canvas keeps the chosen aspect ratio (letterboxed/pillarboxed).
+       * ============================= */
+
+      #unity-container {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #unity-canvas {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Fixed ratio mode: canvas is sized by JS, centered via flexbox */
+      #unity-container.fixed-ratio #unity-canvas {
+        width: auto;
+        height: auto;
+      }
+
+      #unity-loading-bar {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        display: block;
+      }
+
+      #unity-progress-bar-empty {
+        width: 141px;
+        height: 16px;
+        margin-top: 10px;
+        background: url('TemplateData/progress-bar-empty-dark.png') no-repeat center;
+      }
+
+      #unity-progress-bar-full {
+        width: 0%;
+        height: 16px;
+        background: url('TemplateData/progress-bar-full-dark.png') no-repeat center;
+      }
+
+      #unity-footer {
+        display: none;
+        position: absolute;
+        bottom: 5px;
+        left: 8px;
+        right: 8px;
+        height: 38px;
+        line-height: 38px;
+        text-align: left;
+        font-family: arial;
+        font-size: 14px;
+        color: #999;
+      }
+
+      #unity-footer .unity-webgl-logo {
+        float:left; width: 204px; height: 38px; background: url('TemplateData/webgl-logo.png') no-repeat left center;
+      }
+      #unity-footer .unity-fullscreen-button {
+        float:right; width: 38px; height: 38px; background: url('TemplateData/fullscreen-button.png') no-repeat center center;
+      }
+      #unity-footer .unity-build-title {
+        float:right; margin-right: 10px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+
+      // ============================================================
+      //  RESPONSIVE SETTINGS — Edit these values before building
+      // ============================================================
+      //  FIXED_RATIO : false → canvas stretches to fill the window
+      //                true  → canvas keeps the aspect ratio below
+      //
+      //  RATIO_WIDTH / RATIO_HEIGHT : the desired aspect ratio
+      //    Common examples:
+      //      16:9  (landscape, default)
+      //       9:16 (portrait / mobile)
+      //       4:3  (classic)
+      //       1:1  (square)
+      //      21:9  (ultra-wide)
+      // ============================================================
+      var FIXED_RATIO   = true;
+      var RATIO_WIDTH   = 9;
+      var RATIO_HEIGHT  = 16;
+      // ============================================================
+
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/{{{ LOADER_FILENAME }}}";
+      var config = {
+        dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}",
+        frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}",
+#if USE_THREADS
+        workerUrl: buildUrl + "/{{{ WORKER_FILENAME }}}",
+#endif
+#if USE_WASM
+        codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
+#endif
+#if MEMORY_FILENAME
+        memoryUrl: buildUrl + "/{{{ MEMORY_FILENAME }}}",
+#endif
+#if SYMBOLS_FILENAME
+        symbolsUrl: buildUrl + "/{{{ SYMBOLS_FILENAME }}}",
+#endif
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
+        productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
+        productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}},
+        showBanner: unityShowBanner,
+      };
+
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+      var warningBanner = document.querySelector("#unity-warning");
+
+      // ---------- Fixed-ratio resize logic ----------
+      function applyFixedRatio() {
+        if (!FIXED_RATIO) return;
+
+        container.classList.add("fixed-ratio");
+
+        var targetRatio = RATIO_WIDTH / RATIO_HEIGHT;
+        var winW = window.innerWidth;
+        var winH = window.innerHeight;
+        var winRatio = winW / winH;
+
+        var canvasW, canvasH;
+
+        if (winRatio > targetRatio) {
+          // Window is wider than target → fit by height (pillarbox)
+          canvasH = winH;
+          canvasW = Math.floor(winH * targetRatio);
+        } else {
+          // Window is taller than target → fit by width (letterbox)
+          canvasW = winW;
+          canvasH = Math.floor(winW / targetRatio);
+        }
+
+        canvas.style.width  = canvasW + "px";
+        canvas.style.height = canvasH + "px";
+      }
+
+      if (FIXED_RATIO) {
+        applyFixedRatio();
+        window.addEventListener("resize", applyFixedRatio);
+
+        // Also reapply when orientation changes on mobile
+        if (screen && screen.orientation) {
+          screen.orientation.addEventListener("change", function() {
+            setTimeout(applyFixedRatio, 100);
+          });
+        }
+      }
+      // ------------------------------------------------
+
+      function unityShowBanner(msg, type) {
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+        container.className = "unity-mobile";
+        canvas.className = "unity-mobile";
+
+        // Re-apply fixed ratio after mobile class is set
+        if (FIXED_RATIO) {
+          container.classList.add("fixed-ratio");
+          applyFixedRatio();
+        }
+      }
+
+      loadingBar.style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+          // Final ratio pass after Unity finishes loading
+          if (FIXED_RATIO) applyFixedRatio();
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+      document.body.appendChild(script);
+
+    </script>
+  </body>
+</html>

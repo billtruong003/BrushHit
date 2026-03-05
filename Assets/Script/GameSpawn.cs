@@ -1,24 +1,22 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Cinemachine;
 
-public class GameSpawn: MonoBehaviour
+public class GameSpawn : MonoBehaviour
 {
     [Header("Mesh + Terrain Settings")]
-    [SerializeField] GameObject[] terrainObjects; // Mảng chứa nhiều Mesh Renderer
+    [SerializeField] GameObject[] terrainObjects;
     [SerializeField] MeshRenderer[] _meshRenderers;
 
     [Header("Generate Rubber Settings")]
-    [SerializeField] GameObject CapsuleRubber;
+    [SerializeField] private float rubberYPosition = 0.25f;
     [SerializeField] private float distanceForEachRubber;
-    private float _LengthTerrain; // Độ dài của plane tính theo x
-    private float _WidthTerrain; // Độ rộng của plane tính theo z
-    private float _LengthCount; // Đếm số điểm của length dựa trên chiều dài
+
+    private float _LengthTerrain;
+    private float _WidthTerrain;
+    private float _LengthCount;
     public float _LineCount;
-    private Vector3 _StartPos;
     public int number_needtogenerateObject;
     public int number_linetogenerate;
     public static int sum_object;
@@ -29,7 +27,6 @@ public class GameSpawn: MonoBehaviour
     [SerializeField] Transform PlanSpawner;
 
     [Header("Camera")]
-    [SerializeField] Cinemachine.CinemachineVirtualCamera PlayerFollowCam;
     [SerializeField] Camera maincam;
     public Transform centerPoint;
     [SerializeField] float smoothSpeed = 0.5f;
@@ -37,47 +34,53 @@ public class GameSpawn: MonoBehaviour
     [SerializeField] float distanceOffset = 5f;
 
     [Header("Score")]
-    [SerializeField] public static int score;
+    public static int score;
     [SerializeField] TextMeshProUGUI ScoreDisplay;
-    
 
-    
-    
-    // Start is called before the first frame update
+    private List<Vector3> allRubberPositions = new List<Vector3>();
+
     void Start()
     {
         score = 0;
         sum_object = 0;
+        numberObTrue = 0;
+
         SpawnPlayerToNothingPlane();
         AssignComponentToMeshRenderer();
         AreaTerrain();
+
+        if (RubberManager.Instance != null)
+            RubberManager.Instance.RegisterRubberPositions(allRubberPositions);
+        else
+            Debug.LogError("[GameSpawn] RubberManager not found!");
     }
-    private void Update() {
+
+    private void Update()
+    {
         ScoreDisplay.text = "Score " + score;
     }
-    void SpawnPlayerToNothingPlane() {
+
+    void SpawnPlayerToNothingPlane()
+    {
         var playerSpawned = Instantiate(SpawnPlayer, PlanSpawner.position, Quaternion.identity, transform);
         centerPoint = playerSpawned.transform.Find("CenterPoint");
-        //PlayerFollowCam.Follow = centerPoint;
-        //PlayerFollowCam.LookAt = centerPoint;
     }
+
     private void LateUpdate()
     {
-        if (centerPoint != null)
-        {
-            Vector3 desiredPosition = centerPoint.position + Vector3.up * heightOffset;
-            desiredPosition.z -= distanceOffset; // Thay đổi giá trị z ở đây
+        if (centerPoint == null) return;
 
-            Vector3 smoothedPosition = Vector3.Lerp(maincam.transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
-            maincam.transform.position = smoothedPosition;
+        Vector3 desiredPosition = centerPoint.position + Vector3.up * heightOffset;
+        desiredPosition.z -= distanceOffset;
+        maincam.transform.position = Vector3.Lerp(
+            maincam.transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
 
-            Quaternion desiredRotation = Quaternion.LookRotation(centerPoint.position - maincam.transform.position, Vector3.up);
-            maincam.transform.rotation = Quaternion.Slerp(maincam.transform.rotation, desiredRotation, smoothSpeed * Time.deltaTime);
-        }
+        Quaternion desiredRotation = Quaternion.LookRotation(
+            centerPoint.position - maincam.transform.position, Vector3.up);
+        maincam.transform.rotation = Quaternion.Slerp(
+            maincam.transform.rotation, desiredRotation, smoothSpeed * Time.deltaTime);
     }
 
-
-    // Update is called once per frame
     void GenerateRubber(Vector3 sizeMeshTerrain, Transform parent, Vector3 centerPos)
     {
         _LengthTerrain = sizeMeshTerrain.x;
@@ -87,107 +90,37 @@ public class GameSpawn: MonoBehaviour
         number_needtogenerateObject = (int)(_LengthTerrain / distanceForEachRubber);
         number_linetogenerate = (int)(_WidthTerrain / distanceForEachRubber);
 
-        Debug.Log(centerPos.x);
-        Debug.Log(centerPos.z);
-        Debug.Log(_LengthCount);
-        Debug.Log(_LineCount);
-
         for (int i = 0; i < number_linetogenerate + 1; i++)
         {
             _LengthCount = -(_LengthTerrain / 2);
-
             for (int j = 0; j < number_needtogenerateObject + 1; j++)
             {
-                _StartPos = new Vector3(centerPos.x + _LengthCount, CapsuleRubber.transform.position.y, centerPos.z - _LineCount);
-                Instantiate(CapsuleRubber, _StartPos, Quaternion.identity, parent);
-
-                sum_object += 1;
+                allRubberPositions.Add(new Vector3(
+                    centerPos.x + _LengthCount,
+                    rubberYPosition,
+                    centerPos.z - _LineCount));
                 _LengthCount += distanceForEachRubber;
             }
-
             _LineCount -= distanceForEachRubber;
         }
-
-        Debug.Log("Tổng cộng có: " + sum_object);
-    
-
-        /* 
-        Hàm này sẽ hoạt động như sau, ví dụ size.x và size.z của gameobject plan = 10;
-        Chúng sẽ chia nửa và lấy giá trị âm để lấy ra vị trí góc dưới bên phải của mỗi gameobject;
-        Minh họa là vị trí bên dưới;
-        _____________
-        |           |
-        |           |
-        |           |
-        |*__________|
-        Sau đó mỗi vòng lặp chúng sẽ tạo ra mô hình chồng chất cho đủ số lượng object đã tính toán.
-        Ví dụ: 
-        Vòng lặp 1:
-        _____________
-        |           |
-        |           |
-        |           |
-        |***********|
-        Vòng lặp 2:
-        _____________
-        |           |
-        |           |
-        |***********|
-        |***********|
-        Vòng lặp 3:
-        _____________
-        |           |
-        |***********|
-        |***********|
-        |***********|
-        Vòng lặp 4:
-        _____________
-        |***********|
-        |***********|
-        |***********|
-        |***********|
-        */
     }
 
-    // Tính diện tích của Terrain đó
     void AreaTerrain()
     {
-        // Kiểm tra xem có Mesh Renderer hay không
-        if (_meshRenderers != null && _meshRenderers.Length > 0)
+        if (_meshRenderers == null || _meshRenderers.Length == 0) return;
+
+        for (int i = 0; i < _meshRenderers.Length; i++)
         {
-            // Lặp qua từng Mesh Renderer trong mảng
-            for (int i = 0; i < _meshRenderers.Length; i++)
-            {
-                MeshRenderer renderer = _meshRenderers[i];
-
-                // Lấy kích thước của Mesh Renderer (bao gồm cả kích thước chiều dài và chiều rộng)
-                Vector3 size = renderer.bounds.size;
-
-                // Tính diện tích bằng cách nhân kích thước chiều dài và chiều rộng
-                float area = size.x * size.z;
-
-                // In ra từng cạnh
-                Debug.Log("Chiều dài của Mesh Renderer " + i + ": " + size.x);
-                Debug.Log("Chiều rộng của Mesh Renderer " + i + ": " + size.z);
-
-                // In ra kết quả
-                Debug.Log("Diện tích của Mesh Renderer " + i + " là: " + area);
-                GenerateRubber(size, terrainObjects[i].transform, terrainObjects[i].transform.position);
-            }
+            Vector3 size = _meshRenderers[i].bounds.size;
+            GenerateRubber(size, terrainObjects[i].transform, terrainObjects[i].transform.position);
         }
-        else
-        {
-            Debug.LogWarning("Không tìm thấy Mesh Renderer trên GameObject hoặc mảng meshRenderers rỗng!");
-        }
+        Debug.Log($"[GameSpawn] Total positions: {allRubberPositions.Count}");
     }
-    void AssignComponentToMeshRenderer() 
+
+    void AssignComponentToMeshRenderer()
     {
         _meshRenderers = new MeshRenderer[terrainObjects.Length];
-        for(int i = 0; i < _meshRenderers.Length; i++) {
+        for (int i = 0; i < _meshRenderers.Length; i++)
             _meshRenderers[i] = terrainObjects[i].GetComponent<MeshRenderer>();
-            }
     }
-    
-
-    
 }

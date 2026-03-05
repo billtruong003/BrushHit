@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CleanRender_CaveFog
+  m_Shader: {fileID: 4800000, guid: 27ef95b6f1a334a64811535745b08d48, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: ae31ca40bd1b94732bfdba4ac2128d66, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _DepthFade: 2
+    - _FadeEnd: 5
+    - _FadeStart: 10
+    - _FogDensity: 2
+    - _NoiseScale: 0.5
+    - _NoiseStrength: 0.5
+    - _SoftEdge: 0
+    m_Colors:
+    - _FogColor: {r: 0.14999995, g: 0.11999992, b: 0.19999993, a: 0.88235295}
+    - _NoiseSpeed: {r: 0.02, g: 0.01, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

@@ -1,0 +1,100 @@
+#pragma kernel CSMain
+
+// ============================================================================
+// CleanRender — Improved Static Culling Compute Shader
+// Features:
+//   1. Frustum Culling (6-plane AABB test)
+//   2. LOD Range Selection (distance-based on GPU)
+//   3. Screen-Size Culling (skip sub-pixel objects)
+//   4. Shadow buffer separation (objects behind camera still cast shadows)
+//   5. Distance culling with configurable max range
+// ============================================================================
+
+#include "Assets/Shaders/CleanRenderPipeline/Core/Shaders/Includes/InstancingCore.hlsl"
+
+struct InstanceBounds
+{
+    float3 center;
+    float3 extents;
+};
+
+// ── Buffers ──
+StructuredBuffer<CompressedInstanceData> _SourceData;
+StructuredBuffer<InstanceBounds> _SourceBounds;
+AppendStructuredBuffer<uint> _VisibleIndices;
+AppendStructuredBuffer<uint> _ShadowIndices;
+
+// ── Camera ──
+float4 _CameraPlanes[6];
+float3 _CameraPosition;
+float3 _CameraForward;
+float _MaxDistanceSq;
+float _ShadowDistanceSq;
+float _ScreenHeight;        // Screen height in pixels
+float _FOVFactor;            // 2.0 * tan(fov/2)
+float _MinScreenSize;        // Min projected pixel size to render (e.g., 2.0)
+uint _Count;
+
+// ── Frustum Culling: AABB vs 6 planes ──
+bool FrustumTest(float3 center, float3 extents)
+{
+    [unroll]
+    for (int i = 0; i < 6; i++)
+    {
+        float3 normal = _CameraPlanes[i].xyz;
+        float dist = _CameraPlanes[i].w;
+        // Signed distance from center + max extent projection
+        if (dot(normal, center) + dist + dot(abs(normal), extents) < 0)
+            return false;
+    }
+    return true;
+}
+
+// ── Screen-Size Test: projected size in pixels ──
+float ComputeScreenSize(float3 center, float3 extents, float distSq)
+{
+    float dist = sqrt(distSq);
+    if (dist < 0.01) return 10000; // Very close = always visible
+
+    float maxExtent = max(max(extents.x, extents.y), extents.z);
+    float diameter = maxExtent * 2.0;
+
+    // Projected pixel size = (object size / distance) * screenHeight / FOV
+    return (diameter / dist) * _ScreenHeight / _FOVFactor;
+}
+
+[numthreads(64, 1, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= _Count) return;
+
+    InstanceBounds b = _SourceBounds[id.x];
+    CompressedInstanceData data = _SourceData[id.x];
+
+    float3 offset = b.center - _CameraPosition;
+    float distSq = dot(offset, offset);
+
+    // ── 1. Global distance cull ──
+    float maxDist = max(_MaxDistanceSq, _ShadowDistanceSq);
+    if (distSq > maxDist) return;
+
+    // ── 2. LOD range check ──
+    // If this instance's LOD range doesn't match current distance, skip
+    if (distSq < data.lodRange.x || distSq >= data.lodRange.y) return;
+
+    // ── 3. Shadow buffer (no frustum check — objects behind camera cast shadows forward) ──
+    if (distSq <= _ShadowDistanceSq)
+    {
+        _ShadowIndices.Append(id.x);
+    }
+
+    // ── 4. Frustum check for visibility ──
+    if (!FrustumTest(b.center, b.extents)) return;
+
+    // ── 5. Screen-size culling (skip tiny objects) ──
+    float screenPx = ComputeScreenSize(b.center, b.extents, distSq);
+    if (screenPx < _MinScreenSize) return;
+
+    // ── 6. Passed all tests → visible ──
+    _VisibleIndices.Append(id.x);
+}
